@@ -1,0 +1,138 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+    <DefaultItemExcludes>$(DefaultItemExcludes);SwiftGrab.Tests\**</DefaultItemExcludes>
+
+    <!-- EXE publish: self-contained single-file with icon -->
+    <WindowsPackageType Condition="'$(BuildMSIX)' != 'true'">None</WindowsPackageType>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile Condition="'$(BuildMSIX)' != 'true'">true</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract Condition="'$(BuildMSIX)' != 'true'">true</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile Condition="'$(BuildMSIX)' != 'true'">true</EnableCompressionInSingleFile>
+    <PublishTrimmed>false</PublishTrimmed>
+    <PublishReadyToRun>true</PublishReadyToRun>
+
+    <!-- Version Information -->
+    <Version>4.0.0</Version>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <FileVersion>4.0.0.0</FileVersion>
+    <InformationalVersion>4.0.0</InformationalVersion>
+
+    <!-- Application Metadata (embedded in .exe properties) -->
+    <Product>SwiftGrab</Product>
+    <Company>ABDULLAH IMRAN</Company>
+    <Description>Fast download manager with browser integration and torrent support</Description>
+    <Copyright>Copyright © 2025-2026 ABDULLAH IMRAN</Copyright>
+    <DefaultLanguage>en-US</DefaultLanguage>
+
+    <!-- Application icon — embedded into the .exe -->
+    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+
+    <!-- Application manifest for Windows 11 DPI/display scaling support -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Win32Resource />
+  </PropertyGroup>
+
+  <!-- MSIX Packaging Configuration — activated with: dotnet publish -p:BuildMSIX=true -->
+  <PropertyGroup Condition="'$(BuildMSIX)' == 'true'">
+    <WindowsPackageType>MSIX</WindowsPackageType>
+    <AppxPackageSigningEnabled>true</AppxPackageSigningEnabled>
+    <PackageCertificateKeyFile>SwiftGrab_MSIX.pfx</PackageCertificateKeyFile>
+    <PackageCertificatePassword>SwiftGrab2026!</PackageCertificatePassword>
+    <PackageCertificateThumbprint>852F2A5174D9FD7B0A7DBD0E32C0066EDAD20418</PackageCertificateThumbprint>
+    <AppxPackageDir>$(MSBuildProjectDirectory)\artifacts\msix\</AppxPackageDir>
+    <GenerateAppxPackageOnBuild>true</GenerateAppxPackageOnBuild>
+    <AppxBundle>Never</AppxBundle>
+    <AppxAutoIncrementPackageRevision>false</AppxAutoIncrementPackageRevision>
+    <AppxSymbolPackageEnabled>false</AppxSymbolPackageEnabled>
+    <PublishSingleFile>false</PublishSingleFile>
+    <IncludeNativeLibrariesForSelfExtract>false</IncludeNativeLibrariesForSelfExtract>
+    <EnableCompressionInSingleFile>false</EnableCompressionInSingleFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    <PackageReference Include="MahApps.Metro" Version="2.4.11" />
+    <PackageReference Include="MaterialDesignThemes" Version="5.3.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.6" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.6" />
+    <!-- BitTorrent Protocol Support -->
+    <PackageReference Include="MonoTorrent" Version="3.0.2" />
+    <!-- Explicit System.Text.Json reference for latest security patches -->
+    <PackageReference Include="System.Text.Json" Version="9.0.6" />
+  </ItemGroup>
+
+  <!-- Browser Extension + native messaging manifest -->
+  <ItemGroup>
+    <Content Include="BrowserExtension\**\*" Exclude="BrowserExtension\**\*.svg;BrowserExtension\**\*.ico;BrowserExtension\**\*.ps1;BrowserExtension\README.md">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>BrowserExtension\%(RecursiveDir)%(Filename)%(Extension)</Link>
+    </Content>
+    <None Include=".github\copilot-instructions.md" />
+    <None Include=".github\workflows\publish.yml" />
+    <Content Include="com.swiftgrab.downloader.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- App icon shipped alongside the .exe and as embedded resource for WPF -->
+  <ItemGroup>
+    <Content Include="Assets\icon.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Assets\icon.ico" />
+    <None Include="Assets\Images\GeneratePlaceholderAssets.ps1" />
+    <None Include="Assets\Icons\ConvertPngToIco.ps1" />
+  </ItemGroup>
+
+  <!-- Switchable app icon assets (ICO + PNG previews for Settings UI) -->
+  <ItemGroup>
+    <Resource Include="Assets\Icons\icon_aqua.ico" />
+    <Resource Include="Assets\Icons\icon_sunset.ico" />
+    <Resource Include="Assets\Icons\icon_cosmic.ico" />
+    <Resource Include="Assets\Icons\icon_classic.ico" />
+    <Resource Include="Assets\Icons\icon_aqua.png" />
+    <Resource Include="Assets\Icons\icon_sunset.png" />
+    <Resource Include="Assets\Icons\icon_cosmic.png" />
+    <Resource Include="Assets\Icons\icon_classic.png" />
+  </ItemGroup>
+
+  <!-- Embedded WPF Resources for Images (accessible via pack:// URIs) -->
+  <ItemGroup>
+    <Resource Include="Assets\Images\developer-photo.jpeg" />
+    <Resource Include="Assets\Images\developer-photo.png" />
+    <Resource Include="Assets\Images\SwiftGrab-Logo.png" />
+    <Content Include="Assets\Images\*.png" Exclude="Assets\Images\developer-photo.png;Assets\Images\SwiftGrab-Logo.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Images\*.jpeg" Exclude="Assets\Images\developer-photo.jpeg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <!-- Rust download engine native DLL -->
+  <ItemGroup>
+    <Content Include="swiftgrab_engine\target\release\swiftgrab_engine.dll" Condition="Exists('swiftgrab_engine\target\release\swiftgrab_engine.dll')">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <Link>swiftgrab_engine.dll</Link>
+    </Content>
+  </ItemGroup>
+
+  <!-- Build Rust engine before C# build (optional — requires Rust toolchain) -->
+  <Target Name="BuildRustEngine" BeforeTargets="Build" Condition="Exists('swiftgrab_engine\Cargo.toml')">
+    <Message Text="Building Rust download engine..." Importance="high" />
+    <Exec Command="cargo build --release --manifest-path swiftgrab_engine\Cargo.toml" IgnoreExitCode="true" />
+  </Target>
+
+  <ProjectExtensions><VisualStudio><UserProperties build_4manifest_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

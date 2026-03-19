@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Source>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</Source>
+    <SmallTileSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</SmallTileSource>
+    <MediumTileSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</MediumTileSource>
+    <WideTileSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</WideTileSource>
+    <LargeTileSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</LargeTileSource>
+    <AppIconSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</AppIconSource>
+    <SplashScreenSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</SplashScreenSource>
+    <PackageLogoSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</PackageLogoSource>
+    <BadgeLogoSource>C:\Users\ABDULLAH IMRAN\Pictures\Swift grab Image Jan 20, 2026, 07_02_23 PM.png</BadgeLogoSource>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Update="Package.appxmanifest">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+</Project>

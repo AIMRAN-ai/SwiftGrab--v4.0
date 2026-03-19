@@ -1,0 +1,9 @@
+{
+  "name": "com.swiftgrab.downloader",
+  "description": "SwiftGrab Download Manager Native Host",
+  "path": "SwiftGrab.exe",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://YOUR_EXTENSION_ID_HERE/"
+  ]
+}

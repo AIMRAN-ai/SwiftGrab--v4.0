@@ -1,0 +1,4 @@
+﻿<Solution>
+  <Project Path="SwiftGrab.csproj" />
+  <Project Path="SwiftGrab.Tests/SwiftGrab.Tests.csproj" />
+</Solution>
